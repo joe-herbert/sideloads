@@ -1,0 +1,8 @@
+Live updates of file while downloading
+Pause, resume, cancel for ongoing downloads
+Button to send message to local program to launch kitty with dls command
+Option to hide moved or missing files
+Option to hide open folder button
+Is it possible to auto reload when download finishes?
+
+Buttons - reload, help, settings, open folder

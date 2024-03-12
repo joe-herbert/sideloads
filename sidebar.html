@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Downloads</title>
+        <script src="sidebar.js"></script>
+        <style>
+            html,
+            body {
+                background-color: inherit;
+                color: inherit;
+            }
+            body {
+                width: 100%;
+                margin: 0;
+                margin-top: 60px;
+                font-family: Arial, sans-serif;
+            }
+            button {
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                padding: 0;
+                margin: 0;
+                cursor: pointer;
+                font-size: 30px;
+            }
+            #reload {
+                position: fixed;
+                right: 10px;
+                top: 10px;
+                z-index: 99;
+            }
+            .open {
+                position: absolute;
+                bottom: 15px;
+                right: 10px;
+            }
+            #table {
+                width: 100%;
+                border: none;
+                border-collapse: collapse;
+            }
+            td {
+                padding: 5px 5px 10px 10px;
+                position: relative;
+            }
+            tr {
+                transition: 0.6s background;
+            }
+            tr:hover {
+                background-color: #ddd;
+            }
+            a {
+                color: black;
+            }
+            span,
+            a {
+                display: inline-block;
+                margin: 2px 0;
+            }
+            .name {
+                font-size: 20px;
+                margin-bottom: 10px;
+                display: inline-block;
+                margin-top: 5px;
+                font-weight: bold;
+            }
+            .datetime {
+                font-style: italic;
+            }
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background-color: #383c4a;
+                    color: white;
+                }
+                a {
+                    color: white;
+                }
+                tr:hover {
+                    background-color: #262b39;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <button id="reload">&#8634;</button>
+        <table id="table"></table>
+    </body>
+</html>
