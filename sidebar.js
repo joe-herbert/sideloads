@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("folder").addEventListener("click", openFolder);
 });
 
+browser.downloads.onChanged.addListener(loadDownloads);
+browser.downloads.onCreated.addListener(loadDownloads);
+browser.downloads.onErased.addListener(loadDownloads);
+
 function loadDownloads() {
     browser.runtime
         .sendMessage({
@@ -27,14 +31,21 @@ function handleResponse(message) {
         );
         let row = document.createElement("tr");
         let cell = document.createElement("td");
-        cell.innerHTML = `<span class="name${download.danger === "safe" ? "" : " danger"}">${filename}</span><br><span class="datetime">${formatDate(download.startTime)}</span><br><span class="size">${download.exists ? formatBytes(download.fileSize) : "File missing or moved"}</span><br>${getURLHTML(download.url)}`;
-        let button = document.createElement("button");
-        button.classList.add("open");
-        button.innerHTML = "&#128640;";
-        button.addEventListener("click", (event) => {
-            browser.downloads.open(download.id);
-        });
-        cell.appendChild(button);
+        if (download.state === "in_progress") {
+            cell.innerHTML = `<span class="name${download.danger === "safe" ? "" : " danger"}">${filename}</span><br>`;
+            //TODO: finish this - need buttons for pause (switches to resume) and cancel, and need percentage and bytes downloaded/total bites
+        } else if (download.state === "interrupted") {
+            //TODO: finish this
+        } else {
+            cell.innerHTML = `<span class="name${download.danger === "safe" ? "" : " danger"}">${filename}</span><br><span class="datetime">${formatDate(download.startTime)}</span><br><span class="size">${download.exists ? formatBytes(download.fileSize) : "File missing or moved"}</span><br>${getURLHTML(download.url)}`;
+            let button = document.createElement("button");
+            button.classList.add("open");
+            button.innerHTML = "&#128640;";
+            button.addEventListener("click", (event) => {
+                browser.downloads.open(download.id);
+            });
+            cell.appendChild(button);
+        }
         row.appendChild(cell);
         table.appendChild(row);
     }
