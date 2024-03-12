@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadDownloads();
     document.getElementById("reload").addEventListener("click", loadDownloads);
+    document.getElementById("folder").addEventListener("click", openFolder);
 });
 
 function loadDownloads() {
@@ -9,6 +10,10 @@ function loadDownloads() {
             type: "list-downloads",
         })
         .then(handleResponse, handleError);
+}
+
+function openFolder() {
+    browser.downloads.showDefaultFolder();
 }
 
 function handleResponse(message) {
