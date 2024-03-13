@@ -25,13 +25,18 @@
     "background": {
         "scripts": ["background.js"]
     },
-    "permissions": ["downloads", "downloads.open"],
+    "permissions": ["downloads", "downloads.open", "storage"],
     "commands": {
         "_execute_sidebar_action": {
             "suggested_key": {
                 "default": "Ctrl+Alt+D"
             },
             "description": "Show the downloads sidebar"
+        }
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "sideloads@joeherbert.dev"
         }
     }
 }
