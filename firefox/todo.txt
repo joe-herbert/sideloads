@@ -1,2 +1,3 @@
 Button to send message to local program to launch kitty with dls command
 Option to open sideloads whenever a download starts or completes
+Website stuff
