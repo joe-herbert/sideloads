@@ -17,21 +17,18 @@ function handleMessage(request, sender, sendResponse) {
 
 browser.runtime.onMessage.addListener(handleMessage);
 
-browser.runtime.onInstalled.addListener(async ({
-    reason,
-    temporary
-}) => {
+browser.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
     if (temporary) return;
     var url;
     switch (reason) {
         case "install":
             await browser.tabs.create({
-                url: "https://joeherbert.dev/sideloads/?onboard=true&browser=firefox"
+                url: "https://joeherbert.dev/sideloads/?onboard=true&browser=firefox",
             });
             break;
         case "update":
             await browser.tabs.create({
-                url: browser.runtime.getURL("updated.html")
+                url: browser.runtime.getURL("updated.html"),
             });
             break;
     }
