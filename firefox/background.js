@@ -23,7 +23,7 @@ browser.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
     switch (reason) {
         case "install":
             await browser.tabs.create({
-                url: "https://joeherbert.dev/sideloads/?onboard=true&browser=firefox",
+                url: "https://sideloads.joeherbert.dev/?onboard=true&browser=firefox",
             });
             break;
         case "update":
@@ -34,4 +34,4 @@ browser.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
     }
 });
 
-browser.runtime.setUninstallURL("https://joeherbert.dev/sideloads/uninstall");
+browser.runtime.setUninstallURL("https://sideloads.joeherbert.dev/uninstall");
