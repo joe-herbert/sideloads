@@ -6,16 +6,28 @@
         <title>Downloads</title>
         <script src="sidebar.js"></script>
         <style>
+            :root {
+                --titleLines: 2;
+            }
+            * {
+                box-sizing: border-box;
+            }
             html,
             body {
                 background-color: inherit;
                 color: inherit;
             }
             body {
-                width: 100%;
+                width: 100vw;
                 margin: 0;
-                margin-top: 50px;
+                padding-top: 50px;
                 font-family: Arial, sans-serif;
+                display: flex;
+                flex-flow: column nowrap;
+                height: 100vh;
+                box-sizing: border-box;
+                overflow: hidden;
+                font-size: 16px;
             }
             button {
                 width: 30px;
@@ -24,13 +36,12 @@
                 padding: 0;
                 margin: 0;
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 1.1em;
                 line-height: 1em;
             }
             .retry {
                 font-weight: normal;
                 width: auto;
-                font-size: 16px;
                 padding: 0px 10px;
             }
             #settings,
@@ -97,6 +108,9 @@
                 align-content: center;
                 align-items: center;
             }
+            #tableWrapper .bytesProgress {
+                font-style: italic;
+            }
             .circleWrapper {
                 margin-left: 10px;
                 display: inline-block;
@@ -125,6 +139,10 @@
                 width: 100%;
                 padding: 5px 5px 10px 10px;
                 position: relative;
+                height: 65px;
+                vertical-align: top;
+                box-sizing: border-box;
+                cursor: pointer;
             }
             tr {
                 transition: 0.6s background;
@@ -132,13 +150,16 @@
             tr.noDownloads:hover {
                 background-color: initial;
             }
+            .noDownloads td {
+                cursor: default;
+            }
             tr:hover {
                 background-color: #ddd;
             }
             .btnWrapper {
-                position: absolute;
-                bottom: 42px;
-                right: 5px;
+                float: right;
+                clear: right;
+                margin-left: 5px;
             }
             .btnWrapperDownloading {
                 float: right;
@@ -156,23 +177,21 @@
                 margin: 2px 0;
             }
             .name {
-                font-size: 20px;
-                margin-bottom: 10px;
-                display: inline-block;
-                margin-top: 5px;
-                font-weight: bold;
+                font-size: 1.1em;
                 word-break: break-all;
                 text-overflow: ellipsis;
+                display: inline-block;
                 display: -webkit-box;
-                max-width: 100%;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: var(--titleLines);
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 box-sizing: border-box;
             }
-            .datetime,
-            .mime {
+            .datetime {
                 font-style: italic;
+                float: right;
+                margin-right: 5px;
+                margin-left: 5px;
             }
             @media (prefers-color-scheme: dark) {
                 body {
@@ -251,19 +270,67 @@
                 margin-left: 5px;
             }
             #settingsWrapper {
-                transition: 0.6s max-height;
                 overflow: hidden;
-                max-height: 100px;
+                width: 100vw;
+                flex-shrink: 0;
+                border-bottom: 1px solid;
             }
             #settingsWrapper.hide {
-                max-height: 0px;
+                display: none;
+            }
+            .settingsInput {
+                max-width: 80px;
+                margin: 10px;
+                border-radius: 5px;
+                border: none;
+                font-size: inherit;
+                padding: 5px;
+            }
+            #tableWrapper {
+                width: 100vw;
+                flex-grow: 1;
+                overflow: auto;
+            }
+            #infoWrapper {
+                width: 100vw;
+                border-top: 1px solid;
+                flex-shrink: 0;
+            }
+            #infoWrapper.hide {
+                display: none;
+            }
+            #infoWrapper .hide {
+                display: none;
+            }
+            #infoWrapper span,
+            #infoWrapper a {
+                display: block;
+                margin: 5px;
+                overflow-wrap: anywhere;
+            }
+            #infoName {
+                font-weight: bold;
+                font-size: 1.1em;
+            }
+            #infoTime,
+            #infoMime,
+            #infoInterrupted {
+                font-style: italic;
+            }
+
+            #infoButtons {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-evenly;
+                margin: 5px;
+            }
+            #infoButtons button {
+                width: 20vw;
             }
         </style>
     </head>
     <body>
-        <a id="help" href="https://sideloads.joeherbert.dev"
-            ><button title="Help">?</button></a
-        >
+        <a id="help" href="https://sideloads.joeherbert.dev"><button title="Help">?</button></a>
         <button id="settings" title="Settings">&#9881;</button>
         <button id="folder" title="Open downloads folder">&#128193;</button>
         <button id="reload" title="Refresh">&#8634;</button>
@@ -282,7 +349,34 @@
                 </label>
                 <span class="switchText">Show mime type</span>
             </div>
+            <div class="settingsInputWrapper">
+                <input class="settingsInput" id="fontSize" type="number" min="1" max="999" />
+                <label for="fontSize">Font Size (px)</label>
+            </div>
+            <div class="settingsInputWrapper">
+                <input class="settingsInput" id="titleLines" type="number" min="1" max="999" />
+                <label for="titleLines">Title Lines</label>
+            </div>
         </div>
-        <table id="table"></table>
+        <div id="tableWrapper">
+            <table id="table"></table>
+        </div>
+        <div id="infoWrapper" class="hide">
+            <span id="infoName"></span>
+            <span id="infoInterrupted" class="cancelled hide">Interrupted</span>
+            <span id="infoTime"></span>
+            <span id="infoSize"></span>
+            <span id="infoMime"></span>
+            <span id="infoPath"></span>
+            <a id="infoURL"></a>
+            <div id="completeInfo">
+                <span id="infoExists"></span>
+            </div>
+            <div id="interruptedInfo">
+                <span id="infoError"></span>
+            </div>
+            <div id="infoProgressWrapper" class="progressWrapper"></div>
+            <div id="infoButtons"></div>
+        </div>
     </body>
 </html>

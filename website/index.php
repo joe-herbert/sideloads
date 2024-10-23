@@ -32,7 +32,7 @@
         <a href="https://addons.mozilla.org/en-GB/firefox/addon/sideloads/" target="_blank" class="addOnLink">Firefox</a>
         <!--<a href="CHROME LINK" target="_blank" class="addOnLink">Chrome</a>--><br>
         If you've found a bug, let me know with an email to <a href="mailto:joe@joeherbert.dev?subject=Sideloads">joe@joeherbert.dev</a> with the subject "Sideloads". Please be descriptive and detailed!<br><br>
-        <div class="centered">
+        <div class="centered bottomMessage">
             Thanks for visiting!<br>
             <span id="joeHerbertLink">
                 <a href="https://joeherbert.dev" target="_blank">

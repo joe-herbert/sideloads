@@ -162,6 +162,12 @@ img.logo {
     box-shadow: none;
 }
 
+.bottomMessage {
+    position: absolute;
+    bottom: max(15px, 3vh);
+    left: 0;
+}
+
 .hover-text-indigo:hover {
     color: #3f51b5 !important;
 }
